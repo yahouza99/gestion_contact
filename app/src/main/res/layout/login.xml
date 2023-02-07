@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:paddingRight="10pt"
+        android:paddingLeft="10pt"
+        >
+        <ImageButton
+            android:id="@+id/retrun"
+            android:layout_width="60pt"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:background="@drawable/round"
+            android:src="?attr/actionModeCloseDrawable"
+            android:layout_marginBottom="12pt"
+            android:layout_marginTop="12pt"
+            />
+
+         <EditText
+             android:id="@+id/login"
+             android:layout_width="match_parent"
+             android:layout_height="wrap_content"
+             android:hint="login"
+             android:layout_weight="1"
+             android:background="@drawable/input"
+             android:drawableLeft="@drawable/baseline_person_24"
+             android:drawablePadding="8pt"
+             android:textSize="12pt"
+             android:paddingLeft="8pt"
+             android:layout_marginTop="4pt"
+             />
+        <EditText
+            android:id="@+id/password"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="password"
+            android:layout_weight="1"
+            android:background="@drawable/input"
+            android:drawableLeft="@drawable/baseline_lock_24"
+            android:drawablePadding="8pt"
+            android:textSize="12pt"
+            android:paddingLeft="8pt"
+            android:layout_marginTop="5pt"
+            />
+           <TextView
+               android:layout_width="match_parent"
+               android:layout_height="wrap_content"
+               android:text="mot de passe oublié"
+               android:textColor="@color/teal_700"
+               android:gravity="end"
+               android:textSize="10pt"
+               android:layout_marginTop="6pt"
+               />
+        <Button
+            android:id="@+id/btnlog"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="login"
+            android:layout_weight="1"
+            android:background="@drawable/round"
+            android:textSize="12pt"
+            android:textColor="@color/white"
+            android:layout_marginTop="4pt"
+            android:layout_marginBottom="2pt"
+            />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Ou avec"
+            android:textColor="@color/teal_700"
+            android:gravity="center"
+            android:textSize="10pt"
+            android:layout_marginTop="3pt"
+            />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:gravity="center"
+        >
+       <ImageView
+           android:layout_width="60dp"
+           android:layout_height="60dp"
+           android:layout_marginRight="25dp"
+           android:src="@drawable/google"
+           />
+        <ImageView
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_marginRight="25dp"
+            android:src="@drawable/facebook"
+            />
+        <ImageView
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_marginRight="25dp"
+            android:src="@drawable/google"
+            />
+
+    </LinearLayout>
+
+
+</LinearLayout>
