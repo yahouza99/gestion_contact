@@ -2,7 +2,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:id="@+id/home_page">
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"
@@ -16,14 +17,14 @@
         <ImageButton
             android:id="@+id/menu"
             android:layout_width="wrap_content"
-            android:layout_height="27pt"
+            android:layout_height="20pt"
             android:layout_weight="1"
             android:background="@drawable/round"
             android:src="@drawable/baseline_menu_24" />
         <EditText
             android:id="@+id/login"
             android:layout_width="wrap_content"
-            android:layout_height="27pt"
+            android:layout_height="20pt"
             android:hint="chercher un contact"
             android:layout_weight="2"
             android:background="@drawable/input"
@@ -48,7 +49,7 @@
             android:paddingLeft="2pt"
             >
         <ImageView
-            android:layout_width="80dp"
+            android:layout_width="60dp"
             android:layout_height="60dp"
             android:layout_weight="1"
             android:src="@drawable/bebe"
@@ -74,8 +75,8 @@
                 />
             <ImageButton
                 android:id="@+id/edit"
-                android:layout_width="wrap_content"
-                android:layout_height="32dp"
+                android:layout_width="15pt"
+                android:layout_height="12pt"
                 android:layout_weight="1"
                 android:background="@drawable/round"
                 android:src="@drawable/baseline_edit_24"
@@ -83,8 +84,8 @@
                 android:layout_marginTop="6dp"/>
             <ImageButton
                 android:id="@+id/call"
-                android:layout_width="wrap_content"
-                android:layout_height="32dp"
+                android:layout_width="15pt"
+                android:layout_height="12pt"
                 android:layout_weight="1"
                 android:background="@drawable/round"
                 android:src="@drawable/baseline_call_24"
@@ -92,8 +93,8 @@
                 android:layout_marginTop="6dp"/>
             <ImageButton
                 android:id="@+id/email"
-                android:layout_width="wrap_content"
-                android:layout_height="32dp"
+                android:layout_width="15pt"
+                android:layout_height="12pt"
                 android:layout_weight="1"
                 android:background="@drawable/round"
                 android:src="@drawable/baseline_mail_24"
@@ -108,7 +109,7 @@
             android:paddingLeft="2pt"
             >
             <ImageView
-                android:layout_width="80dp"
+                android:layout_width="60dp"
                 android:layout_height="60dp"
                 android:layout_weight="1"
                 android:background="@drawable/input"
@@ -134,8 +135,8 @@
                 />
             <ImageButton
                 android:id="@+id/edit1"
-                android:layout_width="wrap_content"
-                android:layout_height="32dp"
+                android:layout_width="15pt"
+                android:layout_height="12pt"
                 android:layout_weight="1"
                 android:background="@drawable/round"
                 android:src="@drawable/baseline_edit_24"
@@ -143,8 +144,8 @@
                 android:layout_marginTop="6dp"/>
             <ImageButton
                 android:id="@+id/call1"
-                android:layout_width="wrap_content"
-                android:layout_height="32dp"
+                android:layout_width="15pt"
+                android:layout_height="12pt"
                 android:layout_weight="1"
                 android:background="@drawable/round"
                 android:src="@drawable/baseline_call_24"
@@ -152,8 +153,8 @@
                 android:layout_marginTop="6dp"/>
             <ImageButton
                 android:id="@+id/email1"
-                android:layout_width="wrap_content"
-                android:layout_height="32dp"
+                android:layout_width="15pt"
+                android:layout_height="12pt"
                 android:layout_weight="1"
                 android:background="@drawable/round"
                 android:src="@drawable/baseline_mail_24"
@@ -168,7 +169,7 @@
             android:paddingLeft="2pt"
             >
             <ImageView
-                android:layout_width="80dp"
+                android:layout_width="60dp"
                 android:layout_height="60dp"
                 android:layout_weight="1"
                 android:background="@drawable/input"
@@ -194,8 +195,8 @@
                 />
             <ImageButton
                 android:id="@+id/edit2"
-                android:layout_width="wrap_content"
-                android:layout_height="32dp"
+                android:layout_width="15pt"
+                android:layout_height="12pt"
                 android:layout_weight="1"
                 android:background="@drawable/round"
                 android:src="@drawable/baseline_edit_24"
@@ -203,8 +204,8 @@
                 android:layout_marginTop="6dp"/>
             <ImageButton
                 android:id="@+id/call2"
-                android:layout_width="wrap_content"
-                android:layout_height="32dp"
+                android:layout_width="15pt"
+                android:layout_height="12pt"
                 android:layout_weight="1"
                 android:background="@drawable/round"
                 android:src="@drawable/baseline_call_24"
@@ -212,8 +213,8 @@
                 android:layout_marginTop="6dp"/>
             <ImageButton
                 android:id="@+id/email2"
-                android:layout_width="wrap_content"
-                android:layout_height="32dp"
+                android:layout_width="15pt"
+                android:layout_height="12pt"
                 android:layout_weight="1"
                 android:background="@drawable/round"
                 android:src="@drawable/baseline_mail_24"
@@ -228,7 +229,7 @@
             android:paddingLeft="2pt"
             >
             <ImageView
-                android:layout_width="80dp"
+                android:layout_width="60dp"
                 android:layout_height="60dp"
                 android:layout_weight="1"
                 android:background="@drawable/input"
@@ -254,8 +255,8 @@
                 />
             <ImageButton
                 android:id="@+id/edit3"
-                android:layout_width="wrap_content"
-                android:layout_height="32dp"
+                android:layout_width="15pt"
+                android:layout_height="12pt"
                 android:layout_weight="1"
                 android:background="@drawable/round"
                 android:src="@drawable/baseline_edit_24"
@@ -263,8 +264,8 @@
                 android:layout_marginTop="6dp"/>
             <ImageButton
                 android:id="@+id/call3"
-                android:layout_width="wrap_content"
-                android:layout_height="32dp"
+                android:layout_width="15pt"
+                android:layout_height="12pt"
                 android:layout_weight="1"
                 android:background="@drawable/round"
                 android:src="@drawable/baseline_call_24"
@@ -272,8 +273,8 @@
                 android:layout_marginTop="6dp"/>
             <ImageButton
                 android:id="@+id/email3"
-                android:layout_width="wrap_content"
-                android:layout_height="32dp"
+                android:layout_width="15pt"
+                android:layout_height="12pt"
                 android:layout_weight="1"
                 android:background="@drawable/round"
                 android:src="@drawable/baseline_mail_24"

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+ <item android:id="@+id/info"
+       android:title="Information"
+       />
+    <item android:id="@+id/help"
+        android:title="Help"
+        />
+    <item android:id="@+id/set"
+        android:title="Setting"
+        >
+        <menu>
+            <item android:id="@+id/theme"
+                android:title="Theme"
+                />
+            <item android:id="@+id/night"
+                android:title="night"
+                />
+        </menu>
+    </item>
+</menu>
