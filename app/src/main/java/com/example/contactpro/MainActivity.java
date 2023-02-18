@@ -1,11 +1,14 @@
 package com.example.contactpro;
 
+import static android.content.ContentValues.TAG;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.util.Patterns;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -24,13 +27,28 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
-public class MainActivity extends AppCompatActivity {
+import java.util.HashMap;
+import java.util.Map;
+
+public class MainActivity extends AppCompatActivity implements View.OnClickListener{
     Button btnup;
     Button btnsignup;
+    EditText nom;
+    EditText prenom;
+    EditText tel;
+    EditText email;
+    EditText password;
+    EditText service;
     LinearLayout login;
     LinearLayout sign;
     private FirebaseAuth auth;
+    private FirebaseFirestore db;
     private EditText username, password_log;
     private Button btnlog;
     private TextView signupRedirectText;
@@ -39,63 +57,32 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.login);
+        setContentView(R.layout.activity_main);
+        //Reccuperation des bouttons
         btnup=(Button)findViewById(R.id.btnup);
         btnsignup=(Button)findViewById(R.id.btnsignup);
+        btnlog=(Button)findViewById(R.id.btnlog);
+        //Reccuperation des champs de pour l'inscription
+        nom=(EditText)findViewById(R.id.nom);
+        prenom=(EditText)findViewById(R.id.prenom);
+        tel=(EditText)findViewById(R.id.tel) ;
+        email=(EditText)findViewById(R.id.email) ;
+        password=(EditText)findViewById(R.id.password) ;
+        service=(EditText)findViewById(R.id.service) ;
+        //Reccuperation des layouts
         login=findViewById(R.id.login_layout);
         sign=findViewById(R.id.sign_layout);
-       /* menu= (ImageButton)findViewById(R.id.menu);
-        home_page=findViewById(R.id.home_page);*/
-        btnup.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                login.setVisibility(View.GONE);
-                sign.setVisibility(View.VISIBLE);
-            }
-        });
-        btnsignup.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                login.setVisibility(View.VISIBLE);
-                sign.setVisibility(View.GONE);
-            }
-        });
+        //instances firebase
         auth = FirebaseAuth.getInstance();
+        db = FirebaseFirestore.getInstance();
+        //mettre les boutons en ecoute
+        btnup.setOnClickListener(this);
+        btnsignup.setOnClickListener(this);
+        btnlog.setOnClickListener(this);
+        ///
         username = findViewById(R.id.username);
         password_log = findViewById(R.id.password_log);
-        btnlog = findViewById(R.id.btnlog);
         signupRedirectText = findViewById(R.id.signupRedirectText);
-        btnlog.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String email = username.getText().toString();
-                String pass = password_log.getText().toString();
-                if (!email.isEmpty() && Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
-                    if (!pass.isEmpty()) {
-                        auth.signInWithEmailAndPassword(email, pass)
-                                .addOnSuccessListener(new OnSuccessListener<AuthResult>() {
-                                    @Override
-                                    public void onSuccess(AuthResult authResult) {
-                                        Toast.makeText(MainActivity.this, "Login Successful", Toast.LENGTH_SHORT).show();
-                                        startActivity(new Intent(MainActivity.this, Main2Activity.class));
-                                        finish();
-                                    }
-                                }).addOnFailureListener(new OnFailureListener() {
-                                    @Override
-                                    public void onFailure(@NonNull Exception e) {
-                                        Toast.makeText(MainActivity.this, "Login Failed", Toast.LENGTH_SHORT).show();
-                                    }
-                                });
-                    } else {
-                        password_log.setError("Empty fields are not allowed");
-                    }
-                } else if (email.isEmpty()) {
-                    username.setError("Empty fields are not allowed");
-                } else {
-                    username.setError("Please enter correct email");
-                }
-            }
-        });
 
     }
 /*
@@ -120,12 +107,102 @@ public class MainActivity extends AppCompatActivity {
             home_page.setBackgroundColor(Color.WHITE);
         }
         return true;
-    }
-    public void onClick(View view){
-        if (view.getId()==R.id.btnup)
-        {
-            login.setVisibility(View.INVISIBLE);
-            sign.setVisibility(View.VISIBLE);
-        }
     }*/
+    private  void login(){
+        String email = username.getText().toString();
+        String pass = password_log.getText().toString();
+        if (!email.isEmpty() && Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+            if (!pass.isEmpty()) {
+               db.collection("users")
+                       .get()
+                       .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                           @Override
+                           public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                               if (task.isSuccessful()) {
+                                   for (QueryDocumentSnapshot doc : task.getResult()) {
+                                       String e = doc.getString("email");
+                                       String e1 = username.getText().toString().trim();
+                                       String p = doc.getString("password");
+                                       String p1 = password_log.getText().toString().trim();
+                                       if (e.equalsIgnoreCase(e1) & p.equalsIgnoreCase(p1)) {
+                                           Intent home = new Intent(MainActivity.this, Home.class);
+                                           home.putExtra("email",e);
+                                           startActivity(home);
+                                           Toast.makeText(MainActivity.this, "Logged In", Toast.LENGTH_SHORT).show();
+                                           break;
+                                       } else {
+                                           Toast.makeText(MainActivity.this, "Cannot login,incorrect Email and Password", Toast.LENGTH_SHORT).show();
+                                       }
+                                   }
+                               }
+                           }
+                       });
+
+            }else{
+                password_log.setError("Empty fields are not allowed");
+            }
+        }else if (email.isEmpty()) {
+            username.setError("Empty fields are not allowed");
+        } else {
+            username.setError("Please enter correct email");
+        }
+    }
+    private void createAccount() {
+        // Create a new user
+        Map<String, Object> user = new HashMap<>();
+        user.put("nom",nom.getText().toString());
+        user.put("prenom)",prenom.getText().toString());
+        user.put("tel",tel.getText().toString());
+        user.put("email",email.getText().toString());
+        user.put("password",password.getText().toString());
+        user.put("service",service.getText().toString());
+        DocumentReference docRef=db.collection("users").document(email.getText().toString());
+        docRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+            @Override
+            public void onSuccess(DocumentSnapshot documentSnapshot) {
+                if (documentSnapshot.exists())
+                {
+                    Toast.makeText(MainActivity.this, "Sorry,this user exists", Toast.LENGTH_SHORT).show();
+                }else{
+                    String myId = docRef.getId();
+                    db.collection("users").document(email.getText().toString())
+                            .set(user)
+                            .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                @Override
+                                public void onSuccess(Void aVoid) {
+                                    Toast.makeText(MainActivity.this, "Success", Toast.LENGTH_SHORT).show();
+                                }
+                            })
+                            .addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                    Toast.makeText(MainActivity.this, "Failed", Toast.LENGTH_SHORT).show();
+                                }
+                            });
+                }
+            }
+        })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(MainActivity.this, "Failed documetn", Toast.LENGTH_SHORT).show();
+                    }
+                });
+           }
+    public void onClick(View view){
+        switch(view.getId()){
+            case R.id.btnsignup:
+                createAccount();
+                sign.setVisibility(View.GONE);
+                login.setVisibility(View.VISIBLE);
+                break;
+            case R.id.btnup:
+                login.setVisibility(View.GONE);
+                sign.setVisibility(View.VISIBLE);
+                break;
+            case R.id.btnlog:
+                login();
+                break;
+        }
+    }
 }
