@@ -38,7 +38,7 @@ public class New extends AppCompatActivity implements View.OnClickListener{
         add.setOnClickListener(this);
 
         Bundle extras=getIntent().getExtras();
-        email=extras.getString("email");
+        email=extras.getString("Email");
 
         db = FirebaseFirestore.getInstance();
     }

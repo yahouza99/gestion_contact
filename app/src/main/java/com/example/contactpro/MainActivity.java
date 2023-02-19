@@ -27,6 +27,7 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -47,10 +48,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     EditText service;
     LinearLayout login;
     LinearLayout sign;
-    private FirebaseAuth auth;
+    LinearLayout success;
+    private FirebaseAuth mAuth;
     private FirebaseFirestore db;
+    FirebaseUser currentUser;
     private EditText username, password_log;
     private Button btnlog;
+    private Button btnsuccess;
     private TextView signupRedirectText;
 
     @Override
@@ -62,6 +66,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         btnup=(Button)findViewById(R.id.btnup);
         btnsignup=(Button)findViewById(R.id.btnsignup);
         btnlog=(Button)findViewById(R.id.btnlog);
+        btnsuccess=(Button)findViewById(R.id.btnsuccess);
         //Reccuperation des champs de pour l'inscription
         nom=(EditText)findViewById(R.id.nom);
         prenom=(EditText)findViewById(R.id.prenom);
@@ -72,136 +77,159 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         //Reccuperation des layouts
         login=findViewById(R.id.login_layout);
         sign=findViewById(R.id.sign_layout);
+        success=findViewById(R.id.success_layout);
         //instances firebase
-        auth = FirebaseAuth.getInstance();
+        mAuth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
         //mettre les boutons en ecoute
         btnup.setOnClickListener(this);
         btnsignup.setOnClickListener(this);
         btnlog.setOnClickListener(this);
+        btnsuccess.setOnClickListener(this);
         ///
         username = findViewById(R.id.username);
         password_log = findViewById(R.id.password_log);
         signupRedirectText = findViewById(R.id.signupRedirectText);
-
     }
-/*
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater=getMenuInflater();
-        inflater.inflate(R.menu.menu_1,menu);
-        return true;
+    public void onStart(){
+        super.onStart();
+        // Check if user is signed in (non-null) and update UI accordingly.
+        currentUser = mAuth.getCurrentUser();
+        updateUI(currentUser);
     }
-
-    @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        if(item.getItemId()==R.id.info)
-        {
-            System.out.println("info");
-        } else if (item.getItemId()==R.id.help) {
-            System.out.println("help");
-        } else if (item.getItemId()==R.id.night) {
-            int color= Color.BLACK;
-            home_page.setBackgroundColor(color);
-        } else if (item.getItemId()==R.id.theme) {
-            home_page.setBackgroundColor(Color.WHITE);
+    private void updateUI(FirebaseUser currentUser) {
+        if (currentUser!=null){
+            sign.setVisibility(View.GONE);
+            login.setVisibility(View.GONE);
+            success.setVisibility(View.VISIBLE);
         }
-        return true;
-    }*/
-    private  void login(){
-        String email = username.getText().toString();
-        String pass = password_log.getText().toString();
-        if (!email.isEmpty() && Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+        else{
+            sign.setVisibility(View.GONE);
+            success.setVisibility(View.GONE);
+            login.setVisibility(View.VISIBLE);
+        }
+    }
+    private  void createAccount() {
+        String mail = email.getText().toString();
+        String pass = password.getText().toString();
+        if (!mail.isEmpty() && Patterns.EMAIL_ADDRESS.matcher(mail).matches()) {
             if (!pass.isEmpty()) {
-               db.collection("users")
-                       .get()
-                       .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                           @Override
-                           public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                               if (task.isSuccessful()) {
-                                   for (QueryDocumentSnapshot doc : task.getResult()) {
-                                       String e = doc.getString("email");
-                                       String e1 = username.getText().toString().trim();
-                                       String p = doc.getString("password");
-                                       String p1 = password_log.getText().toString().trim();
-                                       if (e.equalsIgnoreCase(e1) & p.equalsIgnoreCase(p1)) {
-                                           Intent home = new Intent(MainActivity.this, Home.class);
-                                           home.putExtra("email",e);
-                                           startActivity(home);
-                                           Toast.makeText(MainActivity.this, "Logged In", Toast.LENGTH_SHORT).show();
-                                           break;
-                                       } else {
-                                           Toast.makeText(MainActivity.this, "Cannot login,incorrect Email and Password", Toast.LENGTH_SHORT).show();
-                                       }
-                                   }
-                               }
-                           }
-                       });
-
-            }else{
+                mAuth.createUserWithEmailAndPassword(mail, pass)
+                        .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                            @Override
+                            public void onComplete(@NonNull Task<AuthResult> task) {
+                                if (task.isSuccessful()) {
+                                    // Sign in success, update UI with the signed-in user's information
+                                    //creation du  compte dans firestore
+                                    Map<String, Object> user = new HashMap<>();
+                                    user.put("nom", nom.getText().toString());
+                                    user.put("prenom)", prenom.getText().toString());
+                                    user.put("tel", tel.getText().toString());
+                                    user.put("email", email.getText().toString());
+                                    user.put("password", password.getText().toString());
+                                    user.put("service", service.getText().toString());
+                                    DocumentReference docRef = db.collection("users").document(email.getText().toString());
+                                    docRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                                                @Override
+                                                public void onSuccess(DocumentSnapshot documentSnapshot) {
+                                                    if (documentSnapshot.exists()) {
+                                                        Toast.makeText(MainActivity.this, "Sorry,this user exists", Toast.LENGTH_SHORT).show();
+                                                    } else {
+                                                        String myId = docRef.getId();
+                                                        db.collection("users").document(email.getText().toString())
+                                                                .set(user)
+                                                                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                                                    @Override
+                                                                    public void onSuccess(Void aVoid) {
+                                                                        Toast.makeText(MainActivity.this, "Account create with Success", Toast.LENGTH_SHORT).show();
+                                                                    }
+                                                                })
+                                                                .addOnFailureListener(new OnFailureListener() {
+                                                                    @Override
+                                                                    public void onFailure(@NonNull Exception e) {
+                                                                        Toast.makeText(MainActivity.this, "Account create Failed", Toast.LENGTH_SHORT).show();
+                                                                    }
+                                                                });
+                                                    }
+                                                }
+                                            })
+                                            .addOnFailureListener(new OnFailureListener() {
+                                                @Override
+                                                public void onFailure(@NonNull Exception e) {
+                                                    Toast.makeText(MainActivity.this, "Failed document", Toast.LENGTH_SHORT).show();
+                                                }
+                                            });
+                                    // fin de la creation du compte dans firestore
+                                    Log.d(TAG, "createUserWithEmail:success");
+                                    currentUser = mAuth.getCurrentUser();
+                                    updateUI(currentUser);
+                                } else {
+                                    // If sign in fails, display a message to the user.
+                                    Log.w(TAG, "createUserWithEmail:failure", task.getException());
+                                    Toast.makeText(MainActivity.this, "Authentication failed.",
+                                            Toast.LENGTH_SHORT).show();
+                                    updateUI(null);
+                                }
+                            }
+                        });
+            } else {
+                password.setError("Empty fields are not allowed");
+            }
+        } else if (mail.isEmpty()) {
+            email.setError("Empty fields are not allowed");
+        } else {
+            email.setError("Please enter correct email");
+        }
+    }
+    private void login() {
+        String mail = username.getText().toString();
+        String pass = password_log.getText().toString();
+        if (!mail.isEmpty() && Patterns.EMAIL_ADDRESS.matcher(mail).matches()) {
+            if (!pass.isEmpty()) {
+                mAuth.signInWithEmailAndPassword(mail, pass)
+                        .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                            @Override
+                            public void onComplete(@NonNull Task<AuthResult> task) {
+                                if (task.isSuccessful()) {
+                                    // Sign in success, update UI with the signed-in user's information
+                                    Log.d(TAG, "signInWithEmail:success");
+                                    currentUser = mAuth.getCurrentUser();
+                                    updateUI(currentUser);
+                                } else {
+                                    // If sign in fails, display a message to the user.
+                                    Log.w(TAG, "signInWithEmail:failure", task.getException());
+                                    Toast.makeText(MainActivity.this, "Authentication failed.",
+                                            Toast.LENGTH_SHORT).show();
+                                    updateUI(null);
+                                }
+                            }
+                        });
+            } else {
                 password_log.setError("Empty fields are not allowed");
             }
-        }else if (email.isEmpty()) {
+        } else if (mail.isEmpty()) {
             username.setError("Empty fields are not allowed");
         } else {
             username.setError("Please enter correct email");
         }
     }
-    private void createAccount() {
-        // Create a new user
-        Map<String, Object> user = new HashMap<>();
-        user.put("nom",nom.getText().toString());
-        user.put("prenom)",prenom.getText().toString());
-        user.put("tel",tel.getText().toString());
-        user.put("email",email.getText().toString());
-        user.put("password",password.getText().toString());
-        user.put("service",service.getText().toString());
-        DocumentReference docRef=db.collection("users").document(email.getText().toString());
-        docRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-            @Override
-            public void onSuccess(DocumentSnapshot documentSnapshot) {
-                if (documentSnapshot.exists())
-                {
-                    Toast.makeText(MainActivity.this, "Sorry,this user exists", Toast.LENGTH_SHORT).show();
-                }else{
-                    String myId = docRef.getId();
-                    db.collection("users").document(email.getText().toString())
-                            .set(user)
-                            .addOnSuccessListener(new OnSuccessListener<Void>() {
-                                @Override
-                                public void onSuccess(Void aVoid) {
-                                    Toast.makeText(MainActivity.this, "Success", Toast.LENGTH_SHORT).show();
-                                }
-                            })
-                            .addOnFailureListener(new OnFailureListener() {
-                                @Override
-                                public void onFailure(@NonNull Exception e) {
-                                    Toast.makeText(MainActivity.this, "Failed", Toast.LENGTH_SHORT).show();
-                                }
-                            });
-                }
-            }
-        })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Toast.makeText(MainActivity.this, "Failed documetn", Toast.LENGTH_SHORT).show();
-                    }
-                });
-           }
     public void onClick(View view){
         switch(view.getId()){
             case R.id.btnsignup:
                 createAccount();
-                sign.setVisibility(View.GONE);
-                login.setVisibility(View.VISIBLE);
                 break;
             case R.id.btnup:
                 login.setVisibility(View.GONE);
+                success.setVisibility(View.GONE);
                 sign.setVisibility(View.VISIBLE);
                 break;
             case R.id.btnlog:
                 login();
+                break;
+            case R.id.btnsuccess:
+                Intent home = new Intent(MainActivity.this, Home.class);
+                home.putExtra("Email",currentUser.getEmail().toString());
+                startActivity(home);
                 break;
         }
     }

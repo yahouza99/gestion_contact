@@ -295,6 +295,38 @@
 
 
     </LinearLayout>
+    <LinearLayout
+        android:id="@+id/success_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:visibility="gone"
+        >
+        <TextView
+            android:id="@+id/Succestext"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Success"
+            android:textColor="@color/teal_700"
+            android:gravity="center"
+            android:textSize="50dp"
+            android:layout_marginTop="3dp"
+            android:layout_marginBottom="30dp"
+            />
+        <Button
+            android:id="@+id/btnsuccess"
+            android:text="Ok"
+            android:layout_marginTop="7dp"
+            android:layout_marginBottom="5dp"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:background="@drawable/round"
+            android:textSize="20dp"
+            android:textColor="@color/white"
+            android:textAllCaps="false"
+            android:layout_gravity="center"
+            />
+    </LinearLayout>
 
 
 

@@ -40,6 +40,16 @@
         android:layout_height="wrap_content"
         android:layout_weight="2"
         >
+        <TextView
+            android:id="@+id/username"
+            android:layout_width="wrap_content"
+            android:layout_height="15dp"
+            android:layout_weight="1"
+            android:text="Adamou"
+            android:textSize="20dp"
+            android:layout_marginLeft="4dp"
+            android:paddingTop="5dp"
+            />
         <LinearLayout
             android:orientation="horizontal"
             android:layout_width="wrap_content"
@@ -100,189 +110,7 @@
                 android:layout_marginLeft="3dp"
                 android:layout_marginTop="6dp"/>
         </LinearLayout>
-        <LinearLayout
-            android:orientation="horizontal"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:paddingLeft="2pt"
-            >
-            <ImageView
-                android:layout_width="60dp"
-                android:layout_height="60dp"
-                android:layout_weight="1"
-                android:background="@drawable/input"
-
-                />
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="40dp"
-                android:layout_weight="1"
-                android:text="Yahouza "
-                android:textSize="12pt"
-                android:layout_marginLeft="1dp"
-                android:paddingTop="5dp"
-                />
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="40dp"
-                android:layout_weight="1"
-                android:text="Adamou "
-                android:textSize="12pt"
-                android:layout_marginLeft="4dp"
-                android:paddingTop="5dp"
-                />
-            <ImageButton
-                android:id="@+id/edit1"
-                android:layout_width="15pt"
-                android:layout_height="12pt"
-                android:layout_weight="1"
-                android:background="@drawable/round"
-                android:src="@drawable/baseline_edit_24"
-                android:layout_marginLeft="3dp"
-                android:layout_marginTop="6dp"/>
-            <ImageButton
-                android:id="@+id/call1"
-                android:layout_width="15pt"
-                android:layout_height="12pt"
-                android:layout_weight="1"
-                android:background="@drawable/round"
-                android:src="@drawable/baseline_call_24"
-                android:layout_marginLeft="3dp"
-                android:layout_marginTop="6dp"/>
-            <ImageButton
-                android:id="@+id/email1"
-                android:layout_width="15pt"
-                android:layout_height="12pt"
-                android:layout_weight="1"
-                android:background="@drawable/round"
-                android:src="@drawable/baseline_mail_24"
-                android:layout_marginLeft="3dp"
-                android:layout_marginTop="6dp"/>
-        </LinearLayout>
-        <LinearLayout
-            android:orientation="horizontal"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:paddingLeft="2pt"
-            >
-            <ImageView
-                android:layout_width="60dp"
-                android:layout_height="60dp"
-                android:layout_weight="1"
-                android:background="@drawable/input"
-
-                />
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="40dp"
-                android:layout_weight="1"
-                android:text="Yahouza "
-                android:textSize="12pt"
-                android:layout_marginLeft="1dp"
-                android:paddingTop="5dp"
-                />
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="40dp"
-                android:layout_weight="1"
-                android:text="Adamou "
-                android:textSize="12pt"
-                android:layout_marginLeft="4dp"
-                android:paddingTop="5dp"
-                />
-            <ImageButton
-                android:id="@+id/edit2"
-                android:layout_width="15pt"
-                android:layout_height="12pt"
-                android:layout_weight="1"
-                android:background="@drawable/round"
-                android:src="@drawable/baseline_edit_24"
-                android:layout_marginLeft="3dp"
-                android:layout_marginTop="6dp"/>
-            <ImageButton
-                android:id="@+id/call2"
-                android:layout_width="15pt"
-                android:layout_height="12pt"
-                android:layout_weight="1"
-                android:background="@drawable/round"
-                android:src="@drawable/baseline_call_24"
-                android:layout_marginLeft="3dp"
-                android:layout_marginTop="6dp"/>
-            <ImageButton
-                android:id="@+id/email2"
-                android:layout_width="15pt"
-                android:layout_height="12pt"
-                android:layout_weight="1"
-                android:background="@drawable/round"
-                android:src="@drawable/baseline_mail_24"
-                android:layout_marginLeft="3dp"
-                android:layout_marginTop="6dp"/>
-        </LinearLayout>
-        <LinearLayout
-            android:orientation="horizontal"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:paddingLeft="2pt"
-            >
-            <ImageView
-                android:layout_width="60dp"
-                android:layout_height="60dp"
-                android:layout_weight="1"
-                android:background="@drawable/input"
-
-                />
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="40dp"
-                android:layout_weight="1"
-                android:text="Yahouza "
-                android:textSize="12pt"
-                android:layout_marginLeft="1dp"
-                android:paddingTop="5dp"
-                />
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="40dp"
-                android:layout_weight="1"
-                android:text="Adamou "
-                android:textSize="12pt"
-                android:layout_marginLeft="4dp"
-                android:paddingTop="5dp"
-                />
-            <ImageButton
-                android:id="@+id/edit3"
-                android:layout_width="15pt"
-                android:layout_height="12pt"
-                android:layout_weight="1"
-                android:background="@drawable/round"
-                android:src="@drawable/baseline_edit_24"
-                android:layout_marginLeft="3dp"
-                android:layout_marginTop="6dp"/>
-            <ImageButton
-                android:id="@+id/call3"
-                android:layout_width="15pt"
-                android:layout_height="12pt"
-                android:layout_weight="1"
-                android:background="@drawable/round"
-                android:src="@drawable/baseline_call_24"
-                android:layout_marginLeft="3dp"
-                android:layout_marginTop="6dp"/>
-            <ImageButton
-                android:id="@+id/email3"
-                android:layout_width="15pt"
-                android:layout_height="12pt"
-                android:layout_weight="1"
-                android:background="@drawable/round"
-                android:src="@drawable/baseline_mail_24"
-                android:layout_marginLeft="3dp"
-                android:layout_marginTop="6dp"/>
-        </LinearLayout>
-
     </LinearLayout>
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -298,6 +126,18 @@
             android:src="@drawable/baseline_add_24" />
 
     </LinearLayout>
-
+    <Button
+        android:id="@+id/logout"
+        android:text="LogOut"
+        android:layout_marginTop="7dp"
+        android:layout_marginBottom="5dp"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@drawable/round"
+        android:textSize="20dp"
+        android:textColor="@color/white"
+        android:textAllCaps="false"
+        android:layout_gravity="center"
+        />
 
 </LinearLayout>
