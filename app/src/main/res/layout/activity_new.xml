@@ -12,13 +12,15 @@
         android:gravity="center"
         android:textSize="30dp"
         android:layout_marginTop="3dp"
-        android:layout_marginBottom="30dp"
+        android:layout_marginBottom="10dp"
         />
     <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="200dp"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
         android:layout_gravity="center"
         android:src="@drawable/baseline_person_24"
+        android:background="@drawable/round"
+        android:layout_marginBottom="10dp"
         />
 
     <EditText
@@ -53,11 +55,33 @@
         android:paddingLeft="8pt"
         android:layout_marginTop="8dp"
         />
+    <EditText
+        android:id="@+id/email"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:hint="email"
+        android:background="@drawable/input"
+        android:drawablePadding="15dp"
+        android:textSize="25dp"
+        android:paddingLeft="8pt"
+        android:layout_marginTop="8dp"
+        />
+    <EditText
+        android:id="@+id/service"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:hint="service"
+        android:background="@drawable/input"
+        android:drawablePadding="15dp"
+        android:textSize="25dp"
+        android:paddingLeft="8pt"
+        android:layout_marginTop="8dp"
+        />
     <Button
         android:id="@+id/add"
         android:layout_width="match_parent"
         android:layout_height="30dp"
-        android:text="login"
+        android:text="Ajouter"
         android:background="@drawable/round"
         android:textSize="20dp"
         android:textColor="@color/white"

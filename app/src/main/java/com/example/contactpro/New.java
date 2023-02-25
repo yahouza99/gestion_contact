@@ -26,6 +26,10 @@ public class New extends AppCompatActivity implements View.OnClickListener{
  EditText tel;
  Button add;
  String email;
+ EditText service;
+ String url="photo/image.jpeg";
+ EditText nemail;
+
  private FirebaseFirestore db;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,6 +39,9 @@ public class New extends AppCompatActivity implements View.OnClickListener{
         nom=(EditText)findViewById(R.id.nom);
         prenom=(EditText)findViewById(R.id.prenom);
         tel=(EditText)findViewById(R.id.tel) ;
+        service=(EditText)findViewById(R.id.service) ;
+        nemail=(EditText)findViewById(R.id.email) ;
+        //url=(EditText)findViewById(R.id.url) ;
         add.setOnClickListener(this);
 
         Bundle extras=getIntent().getExtras();
@@ -47,8 +54,11 @@ public class New extends AppCompatActivity implements View.OnClickListener{
         // Create a new contact
         Map<String, Object> contact = new HashMap<>();
         contact.put("nom",nom.getText().toString());
-        contact.put("prenom)",prenom.getText().toString());
+        contact.put("prenom",prenom.getText().toString());
         contact.put("tel",tel.getText().toString());
+        contact.put("email",nemail.getText().toString());
+        contact.put("service",service.getText().toString());
+        contact.put("url",url);
         DocumentReference docRef=db.collection("users").document(email)
                         .collection("contacts").document(tel.getText().toString());
         docRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {

@@ -1,6 +1,7 @@
 package com.example.contactpro;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -46,7 +47,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
     public void onBindViewHolder(MyViewHolder holder, int position) {
 // - get element from your dataset at this position
 // - replace the contents of the view with that element
-        holder.identification.setText(contacts.get(position).getNom()+contacts.get(position).getPrenom());
+        holder.identification.setText(contacts.get(position).getPrenom()+" "+contacts.get(position).getNom());
 // Reference to an image file in Cloud Storage
         StorageReference storageReference =
                 FirebaseStorage.getInstance().getReference(contacts.get(position).getImgurl());
@@ -73,10 +74,17 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
             super(itemLayoutView);
             identification =itemLayoutView.findViewById(R.id.identification);
             photo= itemLayoutView.findViewById(R.id.contact_photo);
-            itemLayoutView.setOnClickListener(this);
+            itemLayoutView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent Detail= new Intent(v.getContext(),Detail.class);
+                    v.getContext().startActivity(Detail);
+                }
+            });
         }
         @Override
         public void onClick(View v) {
+
         }
     }
 }

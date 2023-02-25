@@ -11,10 +11,12 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
@@ -25,7 +27,7 @@ import java.util.LinkedList;
 
 public class Home extends AppCompatActivity implements View.OnClickListener{
     TextView username;
-    private ImageButton add;
+    private FloatingActionButton fab_add;
     private ImageButton menu;
     private Button logout;
     private String email;
@@ -38,15 +40,15 @@ public class Home extends AppCompatActivity implements View.OnClickListener{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
-        username=(TextView)findViewById(R.id.username);
-        add= (ImageButton) findViewById(R.id.add);
+      //  username=(TextView)findViewById(R.id.username);
+        fab_add=(FloatingActionButton) findViewById(R.id.fab_add);
         menu= (ImageButton) findViewById(R.id.menu);
         logout= (Button) findViewById(R.id.logout);
-        add.setOnClickListener(this);
+        fab_add.setOnClickListener(this);
         logout.setOnClickListener(this);
         Bundle extras=getIntent().getExtras();
         email=extras.getString("Email");
-        username.setText("Welcome to "+" "+ email);
+       // username.setText("Welcome to "+" "+ email);
         contactsRecycler=(RecyclerView)findViewById(R.id.list_contacts);
         db = FirebaseFirestore.getInstance();
         contacts= new LinkedList<Contact>();
@@ -85,7 +87,7 @@ public class Home extends AppCompatActivity implements View.OnClickListener{
     }
     public void onClick(View view){
         switch(view.getId()){
-            case R.id.add:
+            case R.id.fab_add:
                 Intent NewContact= new Intent(Home.this, New.class);
                 NewContact.putExtra("Email",email);
                 startActivity(NewContact);
@@ -94,6 +96,7 @@ public class Home extends AppCompatActivity implements View.OnClickListener{
                 FirebaseAuth.getInstance().signOut();
                 Intent out= new Intent(Home.this, MainActivity.class);
                 startActivity(out);
+                break;
         }
     }
 }
