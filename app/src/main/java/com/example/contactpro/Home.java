@@ -28,8 +28,8 @@ import java.util.LinkedList;
 public class Home extends AppCompatActivity implements View.OnClickListener{
     TextView username;
     private FloatingActionButton fab_add;
-    private ImageButton menu;
-    private Button logout;
+    private ImageButton logout;
+    private Button gout;
     private String email;
     private FirebaseAuth mAuth;
     FirebaseUser currentUser;
@@ -42,8 +42,8 @@ public class Home extends AppCompatActivity implements View.OnClickListener{
         setContentView(R.layout.activity_home);
       //  username=(TextView)findViewById(R.id.username);
         fab_add=(FloatingActionButton) findViewById(R.id.fab_add);
-        menu= (ImageButton) findViewById(R.id.menu);
-        logout= (Button) findViewById(R.id.logout);
+        // menu= (ImageButton) findViewById(R.id.menu);
+        logout= (ImageButton) findViewById(R.id.logout);
         fab_add.setOnClickListener(this);
         logout.setOnClickListener(this);
         Bundle extras=getIntent().getExtras();

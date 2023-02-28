@@ -32,6 +32,7 @@ import java.util.LinkedList;
 public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
     private  Context context;
     private LinkedList<Contact> contacts;
+    public static Contact currentcontact;
 
 
     // Provide a suitable constructor (depends on the kind of dataset)
@@ -56,7 +57,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
     // Replace the contents of a view (invoked by the layout manager)
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
-// - get element from your dataset at this position
+        currentcontact=contacts.get(position);// - get element from your dataset at this position
 // - replace the contents of the view with that element
         holder.identification.setText(contacts.get(position).getPrenom()+" "+contacts.get(position).getNom());
 // Reference to an image file in Cloud Storage
@@ -67,7 +68,8 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
         Glide.with(context /* context */)
                 .load(storageReference)
                 .into(holder.photo);
-    }
+
+  }
     // Return the size of your dataset (invoked by the layout manager)
     @Override
     public int getItemCount() {
@@ -85,6 +87,19 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
             super(itemLayoutView);
             identification =itemLayoutView.findViewById(R.id.identification);
             photo= itemLayoutView.findViewById(R.id.contact_photo);
+            itemLayoutView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent Detail= new Intent(v.getContext(),Detail.class);
+                    Detail.putExtra("nom",  currentcontact.getNom());
+                    Detail.putExtra("prenom", currentcontact.getPrenom());
+                    Detail.putExtra("tel",currentcontact.getTel());
+                    Detail.putExtra("email", currentcontact.getEmail());
+                    Detail.putExtra("service", currentcontact.getService());
+                    v.getContext().startActivity(Detail);
+                }
+            });
+            /*
             itemLayoutView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -118,7 +133,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
 
 
                 }
-            });
+            });*/
         }
         @Override
         public void onClick(View v) {
