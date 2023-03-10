@@ -30,7 +30,6 @@ public class Home extends AppCompatActivity implements View.OnClickListener{
     private FloatingActionButton fab_add;
     private ImageButton logout;
     private Button gout;
-    private String email;
     private FirebaseAuth mAuth;
     FirebaseUser currentUser;
     FirebaseFirestore db;
@@ -47,13 +46,16 @@ public class Home extends AppCompatActivity implements View.OnClickListener{
         fab_add.setOnClickListener(this);
         logout.setOnClickListener(this);
         Bundle extras=getIntent().getExtras();
-        email=extras.getString("Email");
-       // username.setText("Welcome to "+" "+ email);
         contactsRecycler=(RecyclerView)findViewById(R.id.list_contacts);
         db = FirebaseFirestore.getInstance();
         contacts= new LinkedList<Contact>();
 
+       // getContacts();
+    }
+    protected void onResume() {
+        super.onResume();
         getContacts();
+
     }
 
     void getContacts() {
@@ -66,7 +68,7 @@ public class Home extends AppCompatActivity implements View.OnClickListener{
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         if (task.isSuccessful()) {
                             for (QueryDocumentSnapshot document : task.getResult()) {
-                                Contact c = new Contact(document.get("nom").toString(), document.get("prenom").toString(), document.get("tel").toString(), document.get("email").toString(), document.get("service").toString(), document.get("url").toString());
+                                Contact c = new Contact(document.get("nom").toString(), document.get("prenom").toString(), document.get("tel").toString(), document.get("email").toString(), document.get("service").toString(), document.get("url").toString(), (Boolean)document.get("favori"));
                                 contacts.add(c);
                             }
                             // use this setting to improve performance if you know that changes
@@ -89,7 +91,6 @@ public class Home extends AppCompatActivity implements View.OnClickListener{
         switch(view.getId()){
             case R.id.fab_add:
                 Intent NewContact= new Intent(Home.this, New.class);
-                NewContact.putExtra("Email",email);
                 startActivity(NewContact);
                 break;
             case R.id.logout:

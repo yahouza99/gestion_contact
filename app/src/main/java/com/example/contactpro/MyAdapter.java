@@ -4,6 +4,7 @@ import static android.content.ContentValues.TAG;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Parcelable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -27,6 +28,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
+import java.io.Serializable;
 import java.util.LinkedList;
 
 public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
@@ -57,12 +59,13 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
     // Replace the contents of a view (invoked by the layout manager)
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
-        currentcontact=contacts.get(position);// - get element from your dataset at this position
+        holder.contact=contacts.get(position);
+        // - get element from your dataset at this position
 // - replace the contents of the view with that element
         holder.identification.setText(contacts.get(position).getPrenom()+" "+contacts.get(position).getNom());
 // Reference to an image file in Cloud Storage
         StorageReference storageReference =
-                FirebaseStorage.getInstance().getReference(contacts.get(position).getImgurl());
+                FirebaseStorage.getInstance().getReference(contacts.get(position).getUrl());
 // Download directly from StorageReference using Glide
 // (See MyAppGlideModule for Loader registration)
         Glide.with(context /* context */)
@@ -82,62 +85,19 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
             View.OnClickListener {
         public TextView identification;
         public ImageView photo;
+        Contact contact;
         // Context is a reference to the activity that contain the the recycler view
         public MyViewHolder(View itemLayoutView) {
             super(itemLayoutView);
             identification =itemLayoutView.findViewById(R.id.identification);
             photo= itemLayoutView.findViewById(R.id.contact_photo);
-            itemLayoutView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent Detail= new Intent(v.getContext(),Detail.class);
-                    Detail.putExtra("nom",  currentcontact.getNom());
-                    Detail.putExtra("prenom", currentcontact.getPrenom());
-                    Detail.putExtra("tel",currentcontact.getTel());
-                    Detail.putExtra("email", currentcontact.getEmail());
-                    Detail.putExtra("service", currentcontact.getService());
-                    v.getContext().startActivity(Detail);
-                }
-            });
-            /*
-            itemLayoutView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    FirebaseAuth mAuth = FirebaseAuth.getInstance();
-                    FirebaseUser currentUser = mAuth.getCurrentUser();
-                    FirebaseFirestore db=FirebaseFirestore.getInstance();
-                    DocumentReference docRef = db.collection("users").document(currentUser.getEmail());
-                    docRef.collection("contacts").document("7494855").get()
-                            .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                        @Override
-                        public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                            if (task.isSuccessful()) {
-                                DocumentSnapshot document = task.getResult();
-                                if (document.exists()) {
-                                    Log.d(TAG, "DocumentSnapshot data: " + document.getData());
-                                    Intent Detail= new Intent(v.getContext(),Detail.class);
-                                            Detail.putExtra("nom",document.getString("nom"));
-                                            Detail.putExtra("prenom",document.getString("prenom"));
-                                            Detail.putExtra("tel",document.getString("tel"));
-                                            Detail.putExtra("email",document.getString("email"));
-                                            Detail.putExtra("service",document.getString("service"));
-                                    v.getContext().startActivity(Detail);
-                                } else {
-                                    Log.d(TAG, "No such document");
-                                }
-                            } else {
-                                Log.d(TAG, "get failed with ", task.getException());
-                            }
-                        }
-                    });
-
-
-                }
-            });*/
+            itemLayoutView.setOnClickListener(this);
         }
         @Override
         public void onClick(View v) {
-
+            Intent myintent= new Intent(v.getContext(), Detail.class);
+            myintent.putExtra("contact", contact);
+            v.getContext().startActivity(myintent);
         }
     }
 }

@@ -7,7 +7,7 @@
         android:id="@+id/loginRedirectText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="New Contact"
+        android:text="Update Contact"
         android:textColor="@color/black"
         android:gravity="center"
         android:textSize="30dp"
@@ -78,15 +78,15 @@
         android:layout_marginTop="8dp"
         />
     <Button
-        android:id="@+id/add"
+        android:id="@+id/update"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:text="Ajouter"
+        android:text="Update"
         android:background="@drawable/round"
         android:textSize="20dp"
         android:textColor="@color/white"
+        android:layout_marginTop="10dp"
         android:layout_marginRight="4pt"
-        android:layout_marginTop="8dp"
         android:textAllCaps="false"
         />
 </LinearLayout>

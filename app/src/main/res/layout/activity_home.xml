@@ -52,5 +52,4 @@
             android:src="@drawable/baseline_add_24"
             />
     </RelativeLayout>
-
 </LinearLayout>

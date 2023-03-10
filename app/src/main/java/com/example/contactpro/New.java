@@ -13,6 +13,8 @@ import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -25,12 +27,13 @@ public class New extends AppCompatActivity implements View.OnClickListener{
  EditText nom;
  EditText tel;
  Button add;
- String email;
  EditText service;
  String url="photo/image.jpeg";
  EditText nemail;
 
  private FirebaseFirestore db;
+ private FirebaseAuth mAuth;
+ private FirebaseUser currentUser;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,15 +46,13 @@ public class New extends AppCompatActivity implements View.OnClickListener{
         nemail=(EditText)findViewById(R.id.email) ;
         //url=(EditText)findViewById(R.id.url) ;
         add.setOnClickListener(this);
-
-        Bundle extras=getIntent().getExtras();
-        email=extras.getString("Email");
-
+        mAuth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
     }
 
     private void createContact() {
         // Create a new contact
+        currentUser = mAuth.getCurrentUser();
         Map<String, Object> contact = new HashMap<>();
         contact.put("nom",nom.getText().toString());
         contact.put("prenom",prenom.getText().toString());
@@ -59,7 +60,8 @@ public class New extends AppCompatActivity implements View.OnClickListener{
         contact.put("email",nemail.getText().toString());
         contact.put("service",service.getText().toString());
         contact.put("url",url);
-        DocumentReference docRef=db.collection("users").document(email)
+        contact.put("favori",false);
+        DocumentReference docRef=db.collection("users").document(currentUser.getEmail())
                         .collection("contacts").document(tel.getText().toString());
         docRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
                     @Override
@@ -69,7 +71,7 @@ public class New extends AppCompatActivity implements View.OnClickListener{
                             Toast.makeText(New.this, "Sorry,this contact exists", Toast.LENGTH_SHORT).show();
                         }else{
                             String myId = docRef.getId();
-                            db.collection("users").document(email)
+                            db.collection("users").document(currentUser.getEmail())
                                     .collection("contacts").document(tel.getText().toString())
                                     .set(contact)
                                     .addOnSuccessListener(new OnSuccessListener<Void>() {

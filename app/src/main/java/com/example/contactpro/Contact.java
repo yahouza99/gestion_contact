@@ -1,20 +1,24 @@
 package com.example.contactpro;
 
-public class Contact {
+import java.io.Serializable;
+
+public class Contact implements Serializable {
         private  String nom;
         private  String prenom;
         private  String tel;
         private String email;
         private String service;
-        private String imgurl;
+        private String url;
+        private  boolean favori;
 
-        public Contact(String nom, String prenom, String tel, String email, String service, String imgurl) {
+        public Contact(String nom, String prenom, String tel, String email, String service, String url,boolean favori) {
             this.nom = nom;
             this.prenom = prenom;
             this.tel = tel;
             this.email = email;
             this.service = service;
-            this.imgurl = imgurl;
+            this.url = url;
+            this.favori=favori;
         }
 
         public String getNom() {
@@ -57,12 +61,20 @@ public class Contact {
             this.service = service;
         }
 
-        public String getImgurl() {
-            return imgurl;
+        public String getUrl() {
+            return url;
         }
 
-        public void setImgur(String imgurl) {
-            this.imgurl = imgurl;
+        public void setUrl(String url) {
+            this.url = url;
         }
-    }
+
+        public boolean isFavori() {
+            return favori;
+        }
+
+        public void setFavori(boolean favori) {
+            this.favori = favori;
+        }
+}
 

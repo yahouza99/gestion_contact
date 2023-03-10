@@ -228,7 +228,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
             case R.id.btnsuccess:
                 Intent home = new Intent(MainActivity.this, Home.class);
-                home.putExtra("Email",currentUser.getEmail().toString());
                 startActivity(home);
                 break;
         }
